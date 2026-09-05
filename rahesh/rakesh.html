@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedLens — AI-Powered Clinical Intelligence & Intake</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        teal: { 50: '#f0fdf4', 100: '#dcfce7', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a' },
+                        slate: { 850: '#1e293b' }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-teal-600 p-2 rounded-lg text-white">
+                    <i data-lucide="activity" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight">MedLens</span>
+                    <span class="ml-2 text-xs bg-slate-800 text-teal-400 px-2 py-0.5 rounded-full border border-teal-500/30">v1.0 Clinical Intake</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 text-xs text-slate-400">
+                <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> HIPAA Guardrails Active</span>
+                <span class="hidden md:inline">|</span>
+                <span class="hidden md:inline">Non-Diagnostic System</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        <div class="mb-6 bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg shadow-sm flex items-start space-x-3">
+            <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5"></i>
+            <div class="text-sm text-amber-800">
+                <strong class="font-semibold">Clinical Information System Notice:</strong> MedLens is an information organization and synthesis tool designed solely to structure patient data. It <strong>does not generate diagnoses or medical prescriptions</strong>. All AI-parsed data requires human review.
+            </div>
+        </div>
+
+        <div class="mb-8 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between text-xs md:text-sm font-medium text-slate-500">
+                <div id="step-btn-1" class="flex items-center text-teal-600 font-semibold cursor-pointer" onclick="navigateToStep(1)">
+                    <span class="w-7 h-7 rounded-full bg-teal-600 text-white flex items-center justify-center mr-2 text-xs">1</span>
+                    Patient Intake & Documents
+                </div>
+                <div class="h-0.5 flex-1 bg-slate-200 mx-4"></div>
+                <div id="step-btn-2" class="flex items-center cursor-pointer opacity-60" onclick="navigateToStep(2)">
+                    <span class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-2 text-xs">2</span>
+                    AI Extraction & Verification
+                </div>
+                <div class="h-0.5 flex-1 bg-slate-200 mx-4"></div>
+                <div id="step-btn-3" class="flex items-center cursor-pointer opacity-60" onclick="navigateToStep(3)">
+                    <span class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-2 text-xs">3</span>
+                    Clinical Summary & Comparison
+                </div>
+            </div>
+        </div>
+
+        <div id="step-1" class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between border-b pb-3">
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="user-plus" class="w-5 h-5 text-teal-600"></i> Patient Demographics & Intake
+                        </h2>
+                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">Direct Manual Input</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Full Name / ID</label>
+                            <input type="text" id="patient-name" value="Jane Doe (ID: #89210)" class="w-full text-sm border-slate-300 border rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Age / Sex</label>
+                            <input type="text" id="patient-demographics" value="42 / Female" class="w-full text-sm border-slate-300 border rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Primary Symptoms / Presenting Concerns</label>
+                        <textarea id="patient-symptoms" rows="2" class="w-full text-sm border-slate-300 border rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none">Persistent fatigue, mild dizziness over the past 3 weeks, occasional cold intolerance.</textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Documented Allergies</label>
+                            <input type="text" id="patient-allergies" value="No Known Drug Allergies (NKDA)" class="w-full text-sm border-slate-300 border rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Current Medications</label>
+                            <input type="text" id="patient-meds" value="Levothyroxine 50mcg daily" class="w-full text-sm border-slate-300 border rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Existing Medical Conditions</label>
+                        <input type="text" id="patient-conditions" value="Hypothyroidism (diagnosed 2021)" class="w-full text-sm border-slate-300 border rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between border-b pb-3 mb-4">
+                            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <i data-lucide="file-text" class="w-5 h-5 text-teal-600"></i> Medical Records Upload
+                            </h2>
+                            <span class="text-xs bg-teal-50 text-teal-700 px-2 py-1 rounded border border-teal-200">Current & Comparison Data</span>
+                        </div>
+
+                        <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-teal-500 transition-colors cursor-pointer bg-slate-50 mb-4">
+                            <i data-lucide="upload-cloud" class="w-10 h-10 text-slate-400 mx-auto mb-2"></i>
+                            <p class="text-sm font-semibold text-slate-700">Drop Current Medical/Lab PDF or Image Here</p>
+                            <p class="text-xs text-slate-400 mt-1">Supports PDF, PNG, JPG (OCR Enabled)</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Or Paste Unstructured Medical Report Text</label>
+                            <textarea id="raw-report-text" rows="5" class="w-full text-xs font-mono border-slate-300 border rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none bg-slate-50" placeholder="Paste report text directly here...">PATIENT REPORT: METROPOLITAN DIAGNOSTICS
+Date: Oct 24, 2026
+Test Name: Complete Blood Count (CBC) & Metabolic Panel
+--------------------------------------------------------
+Hemoglobin (Hb): 10.2 g/dL [Ref Range: 12.0 - 15.5 g/dL] (LOW)
+White Blood Cell (WBC): 7.8 x10^3 / uL [Ref Range: 4.5 - 11.0]
+Platelets: 250 x10^3 / uL [Ref Range: 150 - 450]
+TSH: 6.2 mIU/L [Ref Range: 0.5 - 4.5 mIU/L] (HIGH)
+Patient Note: Patient mentions mild penicillin rash during childhood childhood hospitalization.</textarea>
+                        </div>
+                    </div>
+
+                    <button onclick="processAI()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-4 rounded-lg shadow transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="cpu" class="w-5 h-5"></i> Execute AI Extraction & Normalization
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="step-2" class="space-y-6 hidden">
+            
+            <div id="conflict-container" class="bg-rose-50 border border-rose-200 rounded-xl p-4 shadow-sm">
+                <div class="flex items-center gap-2 text-rose-800 font-bold mb-2">
+                    <i data-lucide="alert-octagon" class="w-5 h-5 text-rose-600"></i>
+                    <span>Inconsistency & Potential Conflict Detected</span>
+                </div>
+                <div class="bg-white border border-rose-200 rounded-lg p-3 text-xs text-slate-700 flex items-center justify-between">
+                    <div>
+                        <strong class="text-rose-900">Allergy Contradiction Flagged:</strong> 
+                        Intake states <span class="bg-slate-100 px-1 py-0.5 rounded font-mono">No Known Drug Allergies</span>, but uploaded laboratory report notes history of <span class="bg-rose-100 text-rose-800 px-1 py-0.5 rounded font-mono">Penicillin Rash</span>.
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="resolveConflict('Intake Overridden')" class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-2.5 py-1 rounded font-medium">Keep Intake</button>
+                        <button onclick="resolveConflict('Penicillin Added')" class="bg-rose-600 hover:bg-rose-700 text-white px-2.5 py-1 rounded font-medium">Add Penicillin Allergy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-800">Extracted & Normalized Clinical Parameters</h2>
+                        <p class="text-xs text-slate-500">Terminologies mapped automatically (e.g., Hb → Hemoglobin). Source tags ensure provenance.</p>
+                    </div>
+                    <span class="text-xs bg-teal-100 text-teal-800 px-2.5 py-1 rounded-full font-medium">100% Traceable</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-600 font-semibold border-b border-slate-200">
+                                <th class="p-3">Standardized Parameter</th>
+                                <th class="p-3">Extracted Value</th>
+                                <th class="p-3">Reference Range</th>
+                                <th class="p-3">Calculated Status</th>
+                                <th class="p-3">Source Provenance</th>
+                                <th class="p-3 text-right">Human Verification</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200" id="extraction-table">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-medium text-slate-900">
+                                    Hemoglobin (Hb)
+                                    <span class="block text-[10px] text-slate-400">Mapped from 'Hb'</span>
+                                </td>
+                                <td class="p-3 font-mono text-slate-800">10.2 g/dL</td>
+                                <td class="p-3 text-slate-600">12.0 – 15.5 g/dL</td>
+                                <td class="p-3">
+                                    <span class="inline-flex items-center gap-1 bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold">
+                                        <i data-lucide="arrow-down-right" class="w-3 h-3"></i> Low
+                                    </span>
+                                </td>
+                                <td class="p-3">
+                                    <span class="inline-flex items-center gap-1 text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                                        <i data-lucide="file" class="w-3 h-3"></i> Current Report (Line 5)
+                                    </span>
+                                </td>
+                                <td class="p-3 text-right">
+                                    <input type="checkbox" checked class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500">
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-medium text-slate-900">
+                                    Thyroid-Stimulating Hormone (TSH)
+                                    <span class="block text-[10px] text-slate-400">Mapped from 'TSH'</span>
+                                </td>
+                                <td class="p-3 font-mono text-slate-800">6.2 mIU/L</td>
+                                <td class="p-3 text-slate-600">0.5 – 4.5 mIU/L</td>
+                                <td class="p-3">
+                                    <span class="inline-flex items-center gap-1 bg-rose-100 text-rose-800 px-2 py-0.5 rounded-full font-semibold">
+                                        <i data-lucide="arrow-up-right" class="w-3 h-3"></i> High
+                                    </span>
+                                </td>
+                                <td class="p-3">
+                                    <span class="inline-flex items-center gap-1 text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                                        <i data-lucide="file" class="w-3 h-3"></i> Current Report (Line 8)
+                                    </span>
+                                </td>
+                                <td class="p-3 text-right">
+                                    <input type="checkbox" checked class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500">
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-medium text-slate-900">
+                                    White Blood Cells (WBC)
+                                </td>
+                                <td class="p-3 font-mono text-slate-800">7.8 x10^3 / uL</td>
+                                <td class="p-3 text-slate-600">4.5 – 11.0 x10^3 / uL</td>
+                                <td class="p-3">
+                                    <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-semibold">
+                                        Normal
+                                    </span>
+                                </td>
+                                <td class="p-3">
+                                    <span class="inline-flex items-center gap-1 text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                                        <i data-lucide="file" class="w-3 h-3"></i> Current Report (Line 6)
+                                    </span>
+                                </td>
+                                <td class="p-3 text-right">
+                                    <input type="checkbox" checked class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-5 shadow-sm">
+                <div class="flex items-center gap-2 text-indigo-900 font-bold mb-3">
+                    <i data-lucide="help-circle" class="w-5 h-5 text-indigo-600"></i>
+                    <span>AI-Generated Dynamic Clarification Questions (3-5 Targeted Prompts)</span>
+                </div>
+                <p class="text-xs text-indigo-700 mb-4">Generated contextually based on extracted values and gaps in the provided patient record:</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                    <div class="bg-white p-3 rounded-lg border border-indigo-100 shadow-sm">
+                        <span class="font-semibold text-indigo-900 block mb-1">1. Fatigue Timeline</span>
+                        <p class="text-slate-600">"You noted fatigue for 3 weeks—does it worsen at a specific time of day?"</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-indigo-100 shadow-sm">
+                        <span class="font-semibold text-indigo-900 block mb-1">2. Allergy Verification</span>
+                        <p class="text-slate-600">"What specific reaction occurred during your childhood penicillin exposure?"</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-indigo-100 shadow-sm">
+                        <span class="font-semibold text-indigo-900 block mb-1">3. Medication Adherence</span>
+                        <p class="text-slate-600">"Have you taken your 50mcg Levothyroxine consistently on an empty stomach?"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center pt-4">
+                <button onclick="navigateToStep(1)" class="text-slate-600 text-sm flex items-center gap-1 font-medium hover:underline">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Intake
+                </button>
+                <button onclick="navigateToStep(3)" class="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold py-2.5 px-5 rounded-lg shadow flex items-center gap-2">
+                    Finalize Review & Generate Summary <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="step-3" class="space-y-6 hidden">
+            
+            <div class="bg-white p-6 rounded-xl border border-slate-200 sh

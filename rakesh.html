@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedLens — Clinical Intelligence & Support Hub</title>
+    <!-- Tailwind CSS for UI Layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        teal: { 50: '#f0fdf4', 100: '#dcfce7', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a' },
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop')",
+                        'card-intake': "linear-gradient(to bottom, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.98)), url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=800&auto=format&fit=crop')",
+                        'card-labs': "linear-gradient(to bottom, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.98)), url('https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=800&auto=format&fit=crop')",
+                        'card-summary': "linear-gradient(to bottom, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.98)), url('https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=800&auto=format&fit=crop')",
+                        'card-safety': "linear-gradient(to bottom, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.98)), url('https://images.unsplash.com/photo-1631815588090-d4bfec5b1cdb?q=80&w=800&auto=format&fit=crop')"
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-900 text-slate-800 font-sans antialiased min-h-screen flex flex-col bg-hero-pattern bg-cover bg-fixed">
+
+    <!-- Header / Navigation -->
+    <header class="bg-slate-900/90 backdrop-blur-md text-white border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showApp()">
+                <div class="bg-teal-600 p-2 rounded-lg text-white shadow">
+                    <i data-lucide="scan-face" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight">Med<span class="text-teal-400">Lens</span></span>
+                    <span class="ml-2 text-xs bg-slate-800 text-teal-400 px-2 py-0.5 rounded-full border border-teal-500/30">v1.0 Clinical System</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button onclick="showApp()" class="text-xs text-slate-300 hover:text-teal-400 flex items-center gap-1.5 font-medium transition">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Main Workflow
+                </button>
+                <span class="text-slate-700">|</span>
+                <button onclick="showSupportHub()" class="text-xs text-teal-400 hover:text-teal-300 flex items-center gap-1.5 font-medium transition bg-slate-800 px-3 py-1.5 rounded-lg border border-teal-500/30">
+                    <i data-lucide="help-circle" class="w-4 h-4"></i> Topic Support Hub
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        <!-- MAIN APP INTERFACE -->
+        <div id="main-app-container">
+            <!-- Safety Banner -->
+            <div class="mb-6 bg-amber-100/95 backdrop-blur-sm border-l-4 border-amber-500 p-4 rounded-r-lg shadow-sm flex items-start space-x-3">
+                <i data-lucide="info" class="w-8 h-8 text-amber-600 flex-shrink-0 mt-0.5"></i>
+                <div class="text-sm text-amber-900">
+                    <strong class="font-bold text-base flex items-center gap-2"><i data-lucide="hand" class="w-5 h-5"></i> System Safety Notice</strong> 
+                    This application is for <strong class="font-semibold text-amber-950">information organization and synthesis only</strong>. It does <strong class="font-semibold text-amber-950">NOT provide diagnostic or treatment recommendations</strong>.
+                </div>
+            </div>
+
+            <!-- Workflow Stepper -->
+            <div class="mb-8 bg-white/90 backdrop-blur-md p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex items-center justify-between text-xs md:text-sm font-medium text-slate-500">
+                    <div id="step-btn-1" class="flex items-center text-teal-700 font-bold cursor-pointer" onclick="navigateToStep(1)">
+                        <span class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center mr-2 text-sm shadow-md"><i data-lucide="user-edit" class="w-4 h-4"></i></span>
+                        Step 1: Patient & Report
+                    </div>
+                    <div class="h-0.5 flex-1 bg-slate-200 mx-4"></div>
+                    <div id="step-btn-2" class="flex items-center cursor-pointer opacity-60" onclick="navigateToStep(2)">
+                        <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-2 text-sm"><i data-lucide="brain-circuit" class="w-4 h-4"></i></span>
+                        Step 2: AI Verification
+                    </div>
+                    <div class="h-0.5 flex-1 bg-slate-200 mx-4"></div>
+                    <div id="step-btn-3" class="flex items-center cursor-pointer opacity-60" onclick="navigateToStep(3)">
+                        <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center mr-2 text-sm"><i data-lucide="clipboard-check" class="w-4 h-4"></i></span>
+                        Step 3: Clinical Summary
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 1: INTAKE & DOCUMENT INPUT -->
+            <div id="step-1" class="space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-card-intake bg-cover bg-center p-6 rounded-xl border border-slate-200 shadow-lg space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-200/80 pb-3">
+                            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <i data-lucide="user-plus" class="w-5 h-5 text-teal-600"></i> Patient Demographics
+                            </h2>
+                            <button onclick="openSupportPage('intake-support')" class="text-xs bg-teal-50 text-teal-700 px-2 py-1 rounded border border-teal-200 flex items-center gap-1 hover:bg-teal-100">
+                                <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Intake Guide
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1 flex items-center gap-1"><i data-lucide="id-card" class="w-3.5 h-3.5"></i>Name / ID</label>
+                                <input type="text" value="Jane Doe (#89210)" class="w-full text-sm border-slate-300 border rounded-lg p-2.5 bg-white/80">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1 flex items-center gap-1"><i data-lucide="cake" class="w-3.5 h-3.5"></i>Age / Sex</label>
+                                <input type="text" value="42 / Female" class="w-full text-sm border-slate-300 border rounded-lg p-2.5 bg-white/80">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 flex items-center gap-1"><i data-lucide="stethoscope" class="w-3.5 h-3.5"></i>Primary Symptoms</label>
+                            <textarea rows="2" class="w-full text-sm border-slate-300 border rounded-lg p-2.5 bg-white/80">Persistent fatigue, mild dizziness over the past 3 weeks.</textarea>
+                        </div>
+                    </div>
+
+                    <div class="bg-card-labs bg-cover bg-center p-6 rounded-xl border border-slate-200 shadow-lg flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-slate-200/80 pb-3 mb-4">
+                                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                    <i data-lucide="file-up" class="w-5 h-5 text-teal-600"></i> Document Extraction
+                                </h2>
+                                <button onclick="openSupportPage('reports-support')" class="text-xs bg-teal-50 text-teal-700 px-2 py-1 rounded border border-teal-200 flex items-center gap-1 hover:bg-teal-100">
+                                    <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> OCR & Parsing Guide
+                                </button>
+                            </div>
+                            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-teal-500 bg-white/70 mb-4">
+                                <i data-lucide="upload-cloud" class="w-10 h-10 text-teal-600 mx-auto mb-2"></i>
+                                <p class="text-sm font-semibold text-slate-700">Drop PDF or Medical Reports Here</p>
+                            </div>
+                        </div>
+                        <button onclick="navigateToStep(2)" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2">
+                            <i data-lucide="wand-2" class="w-5 h-5"></i> Parse & Extract Medical Findings
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: VERIFICATION -->
+            <div id="step-2" class="space-y-6 hidden">
+                <div class="bg-white/95 backdrop-blur-md rounded-xl border border-slate-200 shadow-lg p-6">
+                    <div class="flex items-center justify-between border-b pb-4 mb-4">
+                        <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="thermometer" class="w-5 h-5 text-teal-600"></i> Verified Medical Parameters
+                        </h2>
+                        <button onclick="openSupportPage('normalization-support')" class="text-xs bg-teal-50 text-teal-700 px-2 py-1 rounded border border-teal-200 flex items-center gap-1">
+                            <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Reference Ranges Help
+                        </button>
+                    </div>
+                    <p class="text-xs text-slate-600 mb-4">Review extracted terminology and verify reference ranges before generating final output.</p>
+                    <button onclick="navigateToStep(3)" class="bg-teal-600 text-white font-bold py-2.5 px-5 rounded-lg text-sm flex items-center gap-2">
+                        Proceed to Summary <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 3: SUMMARY -->
+            <div id="step-3" class="space-y-6 hidden">
+                <div class="bg-card-summary bg-cover bg-center p-6 rounded-xl border border-slate-200 shadow-xl space-y-4">
+                    <div class="flex items-center justify-between border-b pb-3">
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-teal-600"></i> Synthesized Record Output
+                        </h2>
+                        <button onclick="openSupportPage('summary-support')" class="text-xs bg-teal-50 text-teal-700 px-2 py-1 rounded border border-teal-200 flex items-center gap-1">
+                            <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Verification Best Practices
+                        </button>
+                    </div>
+                    <p class="text-xs text-slate-700 leading-relaxed">
+                        Extracted observations are structured above with full provenance tracking. All details remain customizable for human review.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOPIC SUPPORT HUB & INDIVIDUAL PAGES -->
+        <div id="support-hub-container" class="hidden space-y-8">
+            
+            <!-- Support Hub Overview Header -->
+            <div class="text-center max-w-3xl mx-auto space-y-2">
+                <h1 class="text-3xl font-extrabold text-white flex items-center justify-center gap-2">
+                    <i data-lucide="book-open-check" class="w-8 h-8 text-teal-400"></i> MedLens Knowledge & Support Hub
+                </h1>
+                <p class="text-slate-300 text-sm">Select a specific operational topic below to review detailed system guidelines, data mapping standards, and clinical guardrails.</p>
+            </div>
+
+            <!-- Topic Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Topic 1 Card -->
+                <div onclick="openSupportPage('intake-support')" class="bg-card-intake bg-cover bg-center p-6 rounded-xl border border-slate-300 shadow-xl cursor-pointer hover:scale-[1.02] transition-transform">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="p-2 bg-teal-600 text-white rounded-lg shadow">
+                            <i data-lucide="user-edit" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[10px] uppercase tracking-wider font-bold bg-teal-100 text-teal-900 px-2 py-0.5 rounded">Topic 1</span>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base mb-1">Patient Intake & Demographics</h3>
+                    <p class="text-xs text-slate-600 mb-4">Guidelines for capturing structured baseline records, symptoms, and active medication logs.</p>
+                    <span class="text-xs text-teal-700 font-bold flex items-center gap-1">View Support Topic <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                </div>
+
+                <!-- Topic 2 Card -->
+                <div onclick="openSupportPage('reports-support')" class="bg-card-labs bg-cover bg-center p-6 rounded-xl border border-slate-300 shadow-xl cursor-pointer hover:scale-[1.02] transition-transform">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="p-2 bg-teal-600 text-white rounded-lg shadow">
+                            <i data-lucide="file-text" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[10px] uppercase tracking-wider font-bold bg-teal-100 text-teal-900 px-2 py-0.5 rounded">Topic 2</span>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base mb-1">Report OCR & Extraction</h3>
+                    <p class="text-xs text-slate-600 mb-4">How optical character recognition extracts values from unstructured PDFs and images.</p>
+                    <span class="text-xs text-teal-700 font-bold flex items-center gap-1">View Support Topic <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                </div>
+
+                <!-- Topic 3 Card -->
+                <div onclick="openSupportPage('normalization-support')" class="bg-card-summary bg-cover bg-center p-6 rounded-xl border border-slate-300 shadow-xl cursor-pointer hover:scale-[1.02] transition-transform">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="p-2 bg-teal-600 text-white rounded-lg shadow">
+                            <i data-lucide="git-compare" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[10px] uppercase tracking-wider font-bold bg-teal-100 text-teal-900 px-2 py-0.5 rounded">Topic 3</span>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base mb-1">Terminology Normalization</h3>
+                    <p class="text-xs text-slate-600 mb-4">Mapping varied terminology (e.g., Hb → Hemoglobin) and handling reference bounds.</p>
+                    <span class="text-xs text-teal-700 font-bold flex items-center gap-1">View Support Topic <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                </div>
+
+                <!-- Topic 4 Card -->
+                <div onclick="openSupportPage('conflicts-support')" class="bg-card-safety bg-cover bg-center p-6 rounded-xl border border-slate-300 shadow-xl cursor-pointer hover:scale-[1.02] transition-transform">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="p-2 bg-rose-600 text-white rounded-lg shadow">
+                            <i data-lucide="shield-alert" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[10px] uppercase tracking-wider font-bold bg-rose-100 text-rose-900 px-2 py-0.5 rounded">Topic 4</span>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base mb-1">Conflict Detection & Alerts</h3>
+                    <p class="text-xs text-slate-600 mb-4">Identifying contradictory information across manual intake and lab records.</p>
+                    <span class="text-xs text-rose-700 font-bold flex items-center gap-1">View Support Topic <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                </div>
+
+                <!-- Topic 5 Card -->
+                <div onclick="openSupportPage('summary-support')" class="bg-card-intake bg-cover bg-center p-6 rounded-xl border border-slate-300 shadow-xl cursor-pointer hover:scale-[1.02] transition-transform">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="p-2 bg-teal-600 text-white rounded-lg shadow">
+                            <i data-lucide="user-check" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-[10px] uppercase tracking-wider font-bold bg-teal-100 text-teal-900 px-2 py-0.5 rounded">Topic 5</span>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base mb-1">Human Review & Verification</h3>
+                    <p class="text-xs text-slate-600 mb-4">Workflow for clinical verification, provenance tracking, and sign-offs.</p>
+                    <span class="text-xs text-teal-700 font-bold flex items-center gap-1">View Support Topic <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                </div>
+
+                <!-- Topic 6 Card -->
+                <div onclick="openSupportPage('safety-support')" class="bg-card-safety bg-cover bg-center p-6 rounded-xl border border-slate-300 shadow-xl cursor-pointer hover:scale-[1.02] transition-transform">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="p-2 bg-amber-600 text-white rounded-lg shadow">
+                            <i data-lucide="lock" class="w-6 h-6"></i>
+                        </div>
